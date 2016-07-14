@@ -1,0 +1,24 @@
+elasticsearch:
+  container_name: fb-elasticsearch
+  image: fb-elasticsearch:latest
+  command: elasticsearch -Des.network.host=0.0.0.0
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+  volumes:
+    - ./data/volumes/elasticsearch:/usr/share/elasticsearch/data
+  environment:
+    - LOCAL_USER_ID
+postgresql:
+  container_name: fb-postgresql
+  image: alpine-postgresql:latest
+  command: postgres
+  ports:
+    - "5432:5432"
+  volumes:
+    - ./data/volumes/postgresql:/var/lib/postgresql/data
+  environment:
+    - LOCAL_USER_ID
+    - POSTGRES_USER=${FB_PG_USER}
+    - POSTGRES_PASSWORD=${FB_PG_PWD}
+    - POSTGRES_DB=${FB_PG_DB}
